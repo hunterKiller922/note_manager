@@ -1,16 +1,27 @@
-titles_ = []
-print('Введите заголовки заметок. Для завершения введите "стоп" или нажмите "ENTER".')
-while True:
-    title = input("Введите заголовок: ")
-    if title.lower() == "стоп" or  title.lower() == '':
-        break
-    if title in titles_:
-        print(f"Заголовок '{title}' уже существует. Введите другой.")
-        continue
-    titles_.append(title)
-if len(titles_) > 0:
+def ввод_заголовков():
+    titles = []
+    print("Введите заголовки заметок или нажмите 'ENTER' для завершения")
+    while True:
+        title = input("Название заголовка: ").strip() # Удаляет лишние пробелы
+
+        if not title:  # ошибка пустого ввода
+            if len(titles) < 1:
+                print("Список заголовков пуст. Пожалуйста, добавьте хотя бы один заголовок.")
+                continue
+            else:
+                return titles
+
+        if title in titles:  # Проверка на уникальность
+            print(f"Заголовок '{title}' уже существует. Введите другой.")
+            continue
+
+        titles.append(title)
+
+
+def main():
+    titles = ввод_заголовков()
     print("Список заголовков:")
-    for i, title in enumerate(titles_):
-        print(f'{i+1}. {title}',end='\n')
-else:
-    print('Вы не добавили ни одного заголовка.')
+    for i, title in enumerate(titles):
+        print(f"{i + 1}. {title}",end='\n')
+
+main()
