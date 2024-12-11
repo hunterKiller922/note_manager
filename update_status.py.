@@ -1,0 +1,39 @@
+def status():
+    # Список допустимых статусов
+    statuses = {
+        1: "выполнено",
+        2: "в процессе",
+        3: "отложено"
+    }
+    # Запрашиваем текущий статус заметки
+    while True:
+
+        current_status_id = int(input("Введите текущий статус заметки (1 - выполнено, 2 - в процессе, 3 - отложено): "))
+
+        current_status = statuses.get(current_status_id, None) # get.возвращает значение ключа, если ключ есть в словаре
+        # Отображаем текущий статус
+        if current_status is None:
+            print("Неверный статус! Повторите ввод.")
+            continue
+        else:
+            print(f"Текущий статус заметки: {current_status}")
+            break
+
+    # Предлагаем изменить статус
+    print("\nВыберите новый статус заметки:")
+    for key, value in statuses.items():
+        print(f"{key}. {value}")
+    # Считываем новый статус от пользователя
+    while True:
+        new_status_id = int(input("Ваш выбор: "))
+        new_status = statuses.get(new_status_id, None)
+        if new_status is None:
+            print("Неверный статус!")
+            continue
+        else:
+            break
+    # Обновляем статус
+    current_status = new_status
+    # Выводим обновленный статус
+    print(f"Статус заметки успешно обновлен на: {current_status}")
+status()
