@@ -1,39 +1,54 @@
-def status():
+def статус():
     # Список допустимых статусов
-    statuses = {
-        1: "выполнено",
-        2: "в процессе",
-        3: "отложено"
-    }
-    # Запрашиваем текущий статус заметки
-    while True:
+    statuses = ["в процессе", "выполнена", "отложена"]
+    """Задаем текущий статус"""
+    def get_current_status():
+        print("\nТекущий статус заметки:")
+        for i, status in enumerate(statuses):
+            print(f"{i + 1}. {status}")
 
-        current_status_id = int(input("Введите текущий статус заметки (1 - выполнено, 2 - в процессе, 3 - отложено): "))
+        while True:
+            try:
+                choice = int(input("\nВведите номер текущего статуса: "))
+                if choice <= len(statuses) and choice >= 1:
+                    return statuses[choice - 1]
+                else:
+                    raise ValueError
+            except ValueError:
+                print("Некорректный ввод. Попробуйте снова.")
+    """Задаем новый стус"""
+    def add_new_status():
+        new_status = input("\nВведите новый статус: ")
+        statuses.append(new_status)
+        print(f"\nНовый статус '{new_status}' добавлен.")
+    """Обновление статуса"""
+    def update_status(current_status):
+        print("\nВозможные статусы для изменения:")
+        for i, status in enumerate(statuses):
+            print(f"{i + 1}. {status}")
 
-        current_status = statuses.get(current_status_id, None) # get.возвращает значение ключа, если ключ есть в словаре
-        # Отображаем текущий статус
-        if current_status is None:
-            print("Неверный статус! Повторите ввод.")
-            continue
-        else:
-            print(f"Текущий статус заметки: {current_status}")
-            break
+        while True:
+            try:
+                choice = int(input("\nВыберите новый статус: "))
+                if 1 <= choice <= len(statuses):
+                    updated_status = statuses[choice - 1]
+                    print(f"\nСтатус изменен на: {updated_status}")
+                    return updated_status
+                else:
+                    raise ValueError
+            except ValueError:
+                print("Некорректный ввод. Попробуйте снова.")
 
-    # Предлагаем изменить статус
-    print("\nВыберите новый статус заметки:")
-    for key, value in statuses.items():
-        print(f"{key}. {value}")
-    # Считываем новый статус от пользователя
-    while True:
-        new_status_id = int(input("Ваш выбор: "))
-        new_status = statuses.get(new_status_id, None)
-        if new_status is None:
-            print("Неверный статус!")
-            continue
-        else:
-            break
-    # Обновляем статус
-    current_status = new_status
-    # Выводим обновленный статус
-    print(f"Статус заметки успешно обновлен на: {current_status}")
-status()
+    current_status = get_current_status()
+    print(f"Текущий статус: {current_status}")
+
+    answer = input("\nХотите добавить новый статус? (да/нет): ").lower().strip()
+    if answer == 'да':
+        add_new_status()
+
+    answer = input("\nХотите изменить статус заметки? (да/нет): ").lower().strip()
+    if answer == 'да':
+        current_status = update_status(current_status)
+
+    print(f"\nИтоговый статус: {current_status}")
+статус()
