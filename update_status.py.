@@ -16,7 +16,7 @@ def статус():
                     raise ValueError
             except ValueError:
                 print("Некорректный ввод. Попробуйте снова.")
-    """Задаем новый стус"""
+    """Задаем новый стус'"""
     def add_new_status():
         new_status = input("\nВведите новый статус: ")
         statuses.append(new_status)
