@@ -1,0 +1,102 @@
+# Хранение заметок в виде списка словарей
+notes = [
+    {
+        'name': 'Алексей',
+        'title': 'Список покупок',
+        'description': 'Купить продукты на неделю'
+    },
+{
+        'name': 'Алексей',
+        'title': 'Учеба',
+        'description': 'Купить продукты на неделю'
+    },
+    {
+        'name': 'Алексей',
+        'title': 'Кино',
+        'description': 'Монгол, Тор, Орешник'
+    },
+    {
+        'name': 'Мария',
+        'title': 'Кино',
+        'description': '11, 122, 777'
+    },
+    {
+        'name': 'Мария',
+        'title': 'Учеба',
+        'description': 'Подготовиться к экзамену'
+    }
+]
+
+
+
+def display_notes():
+    """Отображает текущий список заметок"""
+    if not notes:
+        print("Нет заметок.")
+    else:
+        for i, note in enumerate(notes):
+            print(f"{i + 1}.")
+            print(f"\tИмя: {note['name']}")
+            print(f"\tЗаголовок: {note['title']}")
+            print(f"\tОписание: {note['description']}\n")
+
+
+def select_note_from_list(found_notes):
+    """Предлагает пользователю выбрать конкретную заметку из списка совпавших результатов"""
+    if len(found_notes) == 1:
+        return found_notes[0]
+
+    print("Найдены следующие заметки:")
+    for i, note in enumerate(found_notes):
+        print(f"{i + 1}.")
+        print(f"\tИмя: {note['name']}")
+        print(f"\tЗаголовок: {note['title']}")
+        print(f"\tОписание: {note['description']}\n")
+
+    choice = int(input("Пожалуйста, выберите номер заметки для удаления: "))
+    return found_notes[choice - 1]
+
+
+def delete_note_by_criteria(criteria_type, criteria_value):
+    """Удаляет заметки по заданным критериям"""
+    found_notes = []
+
+    # Поиск всех заметок, соответствующих критерию
+    for note in notes:
+        if criteria_type == 'name' and note['name'] == criteria_value:
+            found_notes.append(note)
+        elif criteria_type == 'title' and note['title'] == criteria_value:
+            found_notes.append(note)
+
+    if len(found_notes) > 0:
+        selected_note = select_note_from_list(found_notes)
+        confirm_delete = input(f"Вы уверены, что хотите удалить эту заметку? (да/нет): ")
+
+        if confirm_delete.lower() == 'да':
+            notes.remove(selected_note)
+            print("Успешно удалено.")
+        else:
+            print("Операция отменена.")
+    else:
+        print("Заметок с таким именем пользователя или заголовком не найдено.")
+
+
+def main():
+    while True:
+        display_notes()
+
+        choice = input("\nВыберите критерий для удаления:\n1. Имя пользователя\n2. Заголовок\n0. Выход\nВаш выбор: ")
+
+        if choice == '0':
+            break
+        elif choice == '1':
+            name_to_remove = input("Введите имя пользователя для удаления заметки: ").strip().capitalize()
+            delete_note_by_criteria('name', name_to_remove)
+        elif choice == '2':
+            title_to_remove = input("Введите заголовок для удаления заметки: ").strip().capitalize() #делает первое слово с заглавной буквы
+            delete_note_by_criteria('title', title_to_remove)
+        else:
+            print("Неверный выбор. Попробуйте снова.")
+
+
+main()
