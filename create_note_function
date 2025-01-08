@@ -1,0 +1,106 @@
+import datetime
+
+def create_note():
+    """Функция для создания новой заметки"""
+
+    # Запрашиваем у пользователя все необходимые поля
+
+    while True:
+        name = input("Введите имя ИМЯ: ")
+        if name == '':
+            print('Вы ни чего не ввели. Повторите ввод')
+        else:
+            break
+
+    while True:
+        title = input("Введите заголовок заметки: ")
+        if title == '':
+            print('Вы ни чего не ввели. Повторите ввод')
+        else:
+            break
+
+    while True:
+        description = input("Введите описание заметки: ")
+        if description == '':
+            print('Вы ни чего не ввели. Повторите ввод')
+        else:
+            break
+
+    while True:
+        status = input('Введите статус заметки("новая", "в процессе", "выполнено"): ').lower()
+        if status == "новая" or status == 'в процессе'  or status == 'выполнено':
+            break
+        else:
+            print('Вы не верно указали статус! повторите ввод')
+
+    from datetime import date
+
+    # Получаем текущую дату
+    today = date.today()
+
+    # Форматируем строку
+    created_date = today.strftime("%d.%m.%Y")
+
+
+    while True:
+        try:
+            deadline = input("Введите дедлайн заметки (в формате ДД.ММ.ГГГГ): ")
+            datetime.datetime.strptime(deadline, "%d.%m.%Y").date()
+            break
+        except ValueError:
+            print("Некорректный формат даты. Убедитесь, что вводите дату в формате ДД.ММ.ГГГГ (например, 11.11.1990).")
+
+    # Создаем словарь-заметку
+    note = {
+        'name': name,
+        'title': title,
+        'description': description,
+        'status': status,
+        'created_date': created_date,
+        'deadline': deadline
+    }
+
+    return note
+
+
+def display_notes(notes):
+    """Функция для отображения всех заметок"""
+
+    if not notes:
+        print("Список заметок пуст.")
+        return
+
+    for i, note in enumerate(notes, start=1):
+        print(f"{i}. {note['name']}")
+        print(f"\tЗаголовок: {note['title']}")
+        print(f"\tОписание: {note['description']}")
+        print(f"\tСтатус: {note['status']}")
+        print(f"\tДата создания: {note['created_date']}")
+        print(f"\tДедлайн: {note['deadline']}\n")
+
+
+def main():
+    """Основная функция программы"""
+
+    notes = []
+
+    while True:
+        command = input(
+            "\nВведите команду ('СОЗДАТЬ' для добавления заметки, 'ПОКАЗАТЬ' для просмотра всех заметок, 'СТОП' для выхода): ").upper()
+
+        if command == 'СОЗДАТЬ':
+            new_note = create_note()
+            notes.append(new_note)
+            print("Заметка успешно создана!")
+
+        elif command == 'ПОКАЗАТЬ':
+            display_notes(notes)
+
+        elif command == 'СТОП':
+            break
+
+        else:
+            print("Неизвестная команда. Попробуйте снова.")
+
+
+main()
