@@ -1,106 +1,66 @@
 import datetime
 
-def create_note():
-    """Функция для создания новой заметки"""
+def update_note(note):
+    # Показываем доступные поля для обновления
+    print("Выберите поле для обновления:")
+    print("1. Имя")
+    print("2. Заголовок")
+    print("3. Содержание")
+    print("4. Статус")
+    print("5. Дата окончания")
 
-    # Запрашиваем у пользователя все необходимые поля
+    choice = input("Ваш выбор: ")
 
-    while True:
-        name = input("Введите имя ИМЯ: ")
-        if name == '':
-            print('Вы ни чего не ввели. Повторите ввод')
-        else:
-            break
+    if choice == '1':
+        new_value = input("Введите новое имя: ")
+        note['Имя'] = new_value
 
-    while True:
-        title = input("Введите заголовок заметки: ")
-        if title == '':
-            print('Вы ни чего не ввели. Повторите ввод')
-        else:
-            break
+    elif choice == '2':
+        new_value = input("Введите новый заголовок: ")
+        note['Заголовок'] = new_value
 
-    while True:
-        description = input("Введите описание заметки: ")
-        if description == '':
-            print('Вы ни чего не ввели. Повторите ввод')
-        else:
-            break
+    elif choice == '3':
+        new_value = input("Введите новое содержание: ")
+        note['Содержание'] = new_value
 
-    while True:
-        status = input('Введите статус заметки("новая", "в процессе", "выполнено"): ').lower()
-        if status == "новая" or status == 'в процессе'  or status == 'выполнено':
-            break
-        else:
-            print('Вы не верно указали статус! повторите ввод')
+    elif choice == '4':
+        new_value = input("Введите новый статус: ")
+        note['Статус'] = new_value
 
-    from datetime import date
+    elif choice == '5':
+        while True:
+            try:
+                new_value = input("Введите новый дедлайн заметки (в формате ДД.ММ.ГГГГ): ")
+                datetime.datetime.strptime(new_value, "%d.%m.%Y").date()
+                break
+            except ValueError:
+                print(
+                    "Некорректный формат даты. Убедитесь, что вводите дату в формате ДД.ММ.ГГГГ (например, 11.11.1990).")
+        note['Дата окончания'] = new_value
 
-    # Получаем текущую дату
-    today = date.today()
+    else:
+        print("Неверный выбор.")
+        return None
 
-    # Форматируем строку
-    created_date = today.strftime("%d.%m.%Y")
-
-
-    while True:
-        try:
-            deadline = input("Введите дедлайн заметки (в формате ДД.ММ.ГГГГ): ")
-            datetime.datetime.strptime(deadline, "%d.%m.%Y").date()
-            break
-        except ValueError:
-            print("Некорректный формат даты. Убедитесь, что вводите дату в формате ДД.ММ.ГГГГ (например, 11.11.1990).")
-
-    # Создаем словарь-заметку
-    note = {
-        'name': name,
-        'title': title,
-        'description': description,
-        'status': status,
-        'created_date': created_date,
-        'deadline': deadline
-    }
+    # Выводим обновленную заметку
+    print("\nОбновленная заметка:")
+    for key, value in note.items():
+        print(f"{key}: {value}")
 
     return note
 
 
-def display_notes(notes):
-    """Функция для отображения всех заметок"""
+# Пример использования функции
+note = {
+    'Имя': 'Алексей',
+    'Заголовок': 'Заметка о встрече',
+    'Содержание': 'Встреча с клиентами в 10:00.',
+    'Статус': 'Активная',
+    'Дата окончания': '11.11.2024'
+}
 
-    if not notes:
-        print("Список заметок пуст.")
-        return
+print("Текущие данные заметки:")
+for i, key  in enumerate(note):
+    print(f"{i+1}. {key}: {note[key]}")
 
-    for i, note in enumerate(notes, start=1):
-        print(f"{i}. {note['name']}")
-        print(f"\tЗаголовок: {note['title']}")
-        print(f"\tОписание: {note['description']}")
-        print(f"\tСтатус: {note['status']}")
-        print(f"\tДата создания: {note['created_date']}")
-        print(f"\tДедлайн: {note['deadline']}\n")
-
-
-def main():
-    """Основная функция программы"""
-
-    notes = []
-
-    while True:
-        command = input(
-            "\nВведите команду ('СОЗДАТЬ' для добавления заметки, 'ПОКАЗАТЬ' для просмотра всех заметок, 'СТОП' для выхода): ").upper()
-
-        if command == 'СОЗДАТЬ':
-            new_note = create_note()
-            notes.append(new_note)
-            print("Заметка успешно создана!")
-
-        elif command == 'ПОКАЗАТЬ':
-            display_notes(notes)
-
-        elif command == 'СТОП':
-            break
-
-        else:
-            print("Неизвестная команда. Попробуйте снова.")
-
-
-main()
+updated_note = update_note(note)
