@@ -1,13 +1,19 @@
+from colorama import Fore, Style, init
+
+init()  # Инициализация библиотеки colorama для Windows
+
+
 def display_notes(notes):
+    # Проверяем, есть ли заметки в списке
     if not notes:
-        print('Список заметок пуст')
+        print(Fore.RED + "У вас нет сохранённых заметок." + Style.RESET_ALL)
     for i, note in enumerate(notes, start=1):
-        print("=====================")
+        print(f"{Fore.BLUE}=====================")
         print(f'Заметка №{i}.')
-        print(f'\t Имя: {note["Имя"]}')
-        print(f'\t Заголовок: {note["Заголовок"]}')
-        print(f'\t Статус: {note["Статус"]}')
-        print(f'\t Дата окончания: {note["Дата окончания"]}')
+        print(f'\t {Fore.GREEN}Имя: {Style.RESET_ALL}{note["Имя"]}')
+        print(f'\t {Fore.GREEN}Заголовок:{Style.RESET_ALL} {note["Заголовок"]}')
+        print(f'\t {Fore.GREEN}Статус:{Style.RESET_ALL} {note["Статус"]}')
+        print(f'\t {Fore.GREEN}Дата окончания:{Style.RESET_ALL} {note["Дата окончания"]}')
 
 
 
@@ -41,8 +47,5 @@ note = {
     'Дата окончания': '13.11.2024'
 }
 notes.append(note)
-
-#for i, note in enumerate(notes):
-#    print(i,notes)
 
 display_notes(notes)
