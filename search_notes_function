@@ -1,0 +1,98 @@
+def search_notes(notes, keyword=None, status=None):
+    # Проверяем наличие заметок
+    if not notes:
+        return []
+
+    filtered_notes = []
+
+    for note in notes:
+        # Поиск по ключевому слову
+        if keyword is not None:
+            if keyword.lower() in note['title'].lower() or \
+                    keyword.lower() in note['content'].lower() or \
+                    keyword.lower() in note['username'].lower():
+                if status is not None:
+                    # Проверяем соответствие статуса
+                    if note['status'] == status:
+                        filtered_notes.append(note)
+                else:
+                    filtered_notes.append(note)
+        elif status is not None:
+            # Поиск только по статусу
+            if note['status'] == status:
+                filtered_notes.append(note)
+
+    return filtered_notes
+
+
+# Функция для вывода результатов поиска
+def print_search_results(filtered_notes):
+    if len(filtered_notes) > 0:
+        print("Найдены заметки:")
+
+        for i, note in enumerate(filtered_notes, start=1):
+            print(f"\nЗаметка №{i}:")
+            print(f"Имя пользователя: {note['username']}")
+            print(f"Заголовок: {note['title']}")
+            print(f"Описание: {note['content']}")
+            print(f"Статус: {note['status']}")
+    else:
+        print("Заметки, соответствующие запросу, не найдены.")
+
+
+# Основная программа
+
+# Пример списка заметок
+notes = [
+    {
+        'username': 'Алексей',
+        'title': 'Список покупок',
+        'content': 'Купить продукты на неделю',
+        'status': 'новая',
+        'created_date': '27-11-2024',
+        'issue_date': '30-11-2024'
+    },
+    {
+        'username': 'Мария',
+        'title': 'Учеба',
+        'content': 'Подготовиться к экзамену',
+        'status': 'в процессе',
+        'created_date': '25-11-2024',
+        'issue_date': '01-12-2024'
+    },
+    {
+        'username': 'Иван',
+        'title': 'План работы',
+        'content': 'Завершить проект',
+        'status': 'выполнено',
+        'created_date': '20-11-2024',
+        'issue_date': '26-11-2024'
+    }
+]
+while True:
+    print("\nВыберите критерий поиска:")
+    print("1. Поиск по ключевым словам")
+    print("2. Поиск по статусу")
+    print("3. Поиск по ключевым словам и статусу")
+    choice = input("Ваш выбор (или нажмите Enter для выхода): ")
+    if not choice:
+        break
+    try:
+        choice = int(choice)
+    except ValueError:
+        print("Неверный ввод. Попробуйте еще раз.")
+        continue
+    if choice == 1:
+        keyword = input("Введите ключевое слово: ").strip()
+        filtered_notes = search_notes(notes, keyword=keyword)
+    elif choice == 2:
+        status = input("Введите статус: ").strip()
+        filtered_notes = search_notes(notes, status=status)
+    elif choice == 3:
+        keyword = input("Введите ключевое слово: ").strip()
+        status = input("Введите статус: ").strip()
+        filtered_notes = search_notes(notes, keyword=keyword, status=status)
+    else:
+        print("Неправильный выбор. Попробуйте снова.")
+        continue
+    print_search_results(filtered_notes)
