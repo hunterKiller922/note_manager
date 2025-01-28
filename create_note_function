@@ -1,1 +1,87 @@
+from colorama import Fore, Style, init
+import datetime
+init()  # Инициализация библиотеки colorama для Windows
 
+notes = []
+
+def display_notes(notes):
+    # Проверяем, есть ли заметки в списке
+    if not notes:
+        print(Fore.RED + "У вас нет сохранённых заметок." + Style.RESET_ALL)
+    for i, note in enumerate(notes, start=1):
+        print(f"{Fore.BLUE}=====================")
+        print(f'Заметка №{i}.')
+        print(f'\t {Fore.GREEN}Имя: {Style.RESET_ALL}{note["name"]}')
+        print(f'\t {Fore.GREEN}Заголовок:{Style.RESET_ALL} {note["title"]}')
+        print(f'\t {Fore.GREEN}Статус:{Style.RESET_ALL} {note["status"]}')
+        print(f'\t {Fore.GREEN}Дата создания:{Style.RESET_ALL} {note["created_date"]}')
+        print(f'\t {Fore.GREEN}Дата окончания:{Style.RESET_ALL} {note["deadline"]}')
+
+
+def create_note():
+    """Функция для создания новой заметки"""
+
+    # Запрашиваем у пользователя все необходимые поля
+
+    while True:
+        name = input("Введите имя ИМЯ: ")
+        if name == '':
+            print('Вы ни чего не ввели. Повторите ввод')
+        else:
+            break
+
+    while True:
+        title = input("Введите заголовок заметки: ")
+        if title == '':
+            print('Вы ни чего не ввели. Повторите ввод')
+        else:
+            break
+
+    while True:
+        description = input("Введите описание заметки: ")
+        if description == '':
+            print('Вы ни чего не ввели. Повторите ввод')
+        else:
+            break
+
+    while True:
+        status = input('Введите статус заметки("новая", "в процессе", "выполнено"): ').lower()
+        if status == "новая" or status == 'в процессе'  or status == 'выполнено':
+            break
+        else:
+            print('Вы не верно указали статус! повторите ввод')
+
+    from datetime import date
+
+    # Получаем текущую дату
+    today = date.today()
+
+    # Форматируем строку
+    formatted_date = today.strftime("%d.%m.%Y")
+
+    created_date = formatted_date
+
+    while True:
+        try:
+            deadline = input("Введите дедлайн заметки (в формате ДД.ММ.ГГГГ): ")
+            datetime.datetime.strptime(deadline, "%d.%m.%Y").date()
+            break
+        except ValueError:
+            print("Некорректный формат даты. Убедитесь, что вводите дату в формате ДД.ММ.ГГГГ (например, 11.11.1990).")
+
+    # Создаем словарь-заметку
+    note = {
+        'name': name,
+        'title': title,
+        'description': description,
+        'status': status,
+        'created_date': created_date,
+        'deadline': deadline
+    }
+
+    return note
+
+new_note = create_note()
+notes.append(new_note)
+print("Заметка успешно создана!")
+display_notes(notes)
