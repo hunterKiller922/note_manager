@@ -73,6 +73,8 @@ def main():
                     print("Список заметок пуст.")
                     continue
                 else:
+                    search_notes()
+
 
             elif command == 6:
                 print("Программа завершена. Спасибо за использование!")
@@ -82,6 +84,34 @@ def main():
                 print("Неизвестная команда. Попробуйте снова.")
         except ValueError:
             print("Неизвестная команда. Попробуйте снова.")
+
+def search_notes():
+    search_notes = []
+    while True:
+        keyword = input('Введите ключевое слово для поиска заметок: ').lower()
+        for note in notes:
+            # Поиск по ключевому слову
+            if keyword.lower() in note['title'].lower() or \
+                        keyword.lower() in note['description'].lower() or \
+                        keyword.lower() in note['name'].lower() or \
+                        keyword.lower() in note['status'].lower():
+                search_notes.append(note)
+
+        if len(search_notes) == 0:
+            print(f"Заметки с ключевым словом '{keyword}' не найдены.")
+        else:
+            print(f"\n\tНайдено заметок - {len(search_notes)}:\n")
+            for result in search_notes:
+                print(f"-- Пользователь: {result['name']}")
+                print(f"  Название: {result['title']}")
+                print(f"  Содержание: {result['description']}")
+                print(f"  Статус: {result['status']}")
+                print(f"  Дата создания: {result['created_date']}")
+                print(f"  Планируемая дата завершения: {result['deadline']}\n")
+        return search_notes
+
+
+
 
 def delete_note(selected_note):
     """Удаляет конкретный список по индексу"""
@@ -259,5 +289,5 @@ def display_notes(notes):
 
 
 
-
-main()
+if __name__ == "__main__":
+    main()
