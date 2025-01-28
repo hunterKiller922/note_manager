@@ -9,38 +9,51 @@ def update_note(note):
     print("4. Статус")
     print("5. Дата окончания")
 
-    choice = input("Ваш выбор: ")
 
-    if choice == '1':
-        new_value = input("Введите новое имя: ")
-        note['Имя'] = new_value
+    while True:
+        choice = input("Ваш выбор: ")
+        if choice == '1':
+            new_value = input("Введите новое имя: ")
+            note['Имя'] = new_value
+            break
 
-    elif choice == '2':
-        new_value = input("Введите новый заголовок: ")
-        note['Заголовок'] = new_value
+        elif choice == '2':
+            new_value = input("Введите новый заголовок: ")
+            note['Заголовок'] = new_value
+            break
 
-    elif choice == '3':
-        new_value = input("Введите новое содержание: ")
-        note['Содержание'] = new_value
+        elif choice == '3':
+            new_value = input("Введите новое содержание: ")
+            note['Содержание'] = new_value
+            break
 
-    elif choice == '4':
-        new_value = input("Введите новый статус: ")
-        note['Статус'] = new_value
+        elif choice == '4':
+            new_value = input("Введите новый статус: ")
+            note['Статус'] = new_value
+            break
 
-    elif choice == '5':
-        while True:
-            try:
-                new_value = input("Введите новый дедлайн заметки (в формате ДД.ММ.ГГГГ): ")
-                datetime.datetime.strptime(new_value, "%d.%m.%Y").date()
-                break
-            except ValueError:
-                print(
-                    "Некорректный формат даты. Убедитесь, что вводите дату в формате ДД.ММ.ГГГГ (например, 11.11.1990).")
-        note['Дата окончания'] = new_value
+        elif choice == '5':
+            while True:
+                try:
+                    new_value = input("Введите новый дедлайн заметки (в формате ДД.ММ.ГГГГ): ")
+                    datetime.datetime.strptime(new_value, "%d.%m.%Y").date()
+                    break
+                except ValueError:
+                    print(
+                        "Некорректный формат даты. Убедитесь, что вводите дату в формате ДД.ММ.ГГГГ (например, 11.11.1990).")
+            note['Дата окончания'] = new_value
+            break
 
-    else:
-        print("Неверный выбор.")
-        return None
+        else:
+            print("Неверный выбор, повторите ввод.")
+            print("Выберите поле для обновления:")
+            print("1. Имя")
+            print("2. Заголовок")
+            print("3. Содержание")
+            print("4. Статус")
+            print("5. Дата окончания")
+            continue
+
 
     # Выводим обновленную заметку
     print("\nОбновленная заметка:")
@@ -62,5 +75,6 @@ note = {
 print("Текущие данные заметки:")
 for i, key  in enumerate(note):
     print(f"{i+1}. {key}: {note[key]}")
+print('----------------')
 
 updated_note = update_note(note)
