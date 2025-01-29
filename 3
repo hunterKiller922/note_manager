@@ -1,0 +1,70 @@
+import json
+
+notes = [
+    {
+        "username": "Алексей",
+        "title": "Список покупок",
+        "content": "Купить продукты",
+        "status": "новая",
+        "created_date": "27-11-2024",
+        "issue_date": "30-11-2024"
+    },
+    {
+        "username": "11",
+        "title": "22",
+        "content": "33",
+        "status": "новая",
+        "created_date": "2vc4",
+        "issue_date": "fedv"
+    }
+]
+
+def save_notes_to_file(notes, filename='notes.txt'):
+    with open(filename, 'w', encoding='utf-8') as file:
+        json.dump(notes, file, ensure_ascii=False, indent=4)
+
+save_notes_to_file(notes, "notes.txt")
+
+
+
+
+
+
+import json
+
+
+def load_notes_from_file(filename):
+    while True:
+
+        try:
+            with open(filename, 'r', encoding='utf-8') as file:
+                # Читаем содержимое файла построчно
+                string = file.read()
+                if string.strip(): # Проверяем, чтобы строка не была пустой
+                    #print(lines)
+                    lines = json.loads(string)
+                    return lines
+                else:
+                    print(f'Файл {filename} не содержит информации.')
+                    break
+
+        except FileNotFoundError:
+            print(f'Файл {filename} не найден, но теперь мы его создали.')
+
+            with open(filename, 'w', encoding='utf-8') as file:
+                continue
+
+
+#load_notes_from_file('notes.txt')
+notes = load_notes_from_file("notes.txt")
+if notes == None:
+    print('Следим за развитием событий!')
+else:
+    print(notes)
+# print(type(notes))
+
+
+
+
+
+
